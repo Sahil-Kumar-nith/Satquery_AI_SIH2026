@@ -1,0 +1,238 @@
+========================================================
+SATQUERY AI — USER MANUAL (simple version)
+========================================================
+This guide explains how to use the app right now: what image
+to upload, what to type, and what you should see back.
+No technical knowledge needed.
+
+
+--------------------------------------------------------
+STEP 1: WHAT IS THIS APP?
+--------------------------------------------------------
+SatQuery AI looks at satellite pictures and answers your
+questions about them, in plain English.
+
+There are two kinds of satellite pictures it understands:
+
+  OPTICAL picture = a normal-looking photo from space
+                     (like a photo of Earth, with colors)
+
+  SAR picture      = a "radar" picture from space
+                     (looks grainy/grey, but can see through
+                     clouds, even at night)
+
+You upload one or more pictures, then type a question, and
+the app tells you what it found.
+
+
+--------------------------------------------------------
+STEP 2: THE 4 UPLOAD BUTTONS — WHICH ONE DO I CLICK?
+--------------------------------------------------------
+At the bottom of the screen you will see 4 upload buttons:
+
+  [ Optical ]   [ SAR ]   [ Before ]   [ After ]
+
+Use this simple rule:
+
+  -> Asking about ONE picture only?
+     Upload it to "Optical" (normal photo) or "SAR" (radar photo).
+
+  -> Asking "what changed" between TWO pictures of the
+     SAME place at DIFFERENT times (like last year vs. this year)?
+     Upload the older one to "Before" and the newer one to "After".
+
+  -> Asking a question that needs BOTH an optical photo AND a
+     radar (SAR) photo of the SAME place at the SAME time?
+     Upload one to "Optical" and one to "SAR".
+
+  -> Trying the special "cloudy picture" trick (see below)?
+     Upload ONLY to "Optical" and "SAR" — make sure "Before" and
+     "After" are empty/cleared, or the app will get confused
+     about how many pictures you gave it.
+
+IMPORTANT MISTAKE TO AVOID:
+  Do NOT upload a single picture into "Before" if you just want
+  to ask a normal question about it. "Before" only works together
+  with "After". If you do this by mistake, the app will show a
+  red error message telling you to move it to Optical/SAR instead.
+
+
+--------------------------------------------------------
+STEP 3: WHAT FILES CAN I UPLOAD?
+--------------------------------------------------------
+Allowed file types: .tif  .tiff  .png  .jpg  .jpeg
+Max file size: 200 MB
+
+If your file is not a real satellite image (like a random
+photo), the app may reject it — that's expected, it's checking
+the file is a proper image.
+
+
+--------------------------------------------------------
+STEP 4: WHAT CAN I ASK? (5 things the app can do today)
+--------------------------------------------------------
+
+There are 5 kinds of questions the app understands right now.
+For each one below: which button(s) to upload to, an example
+question you can type, and what you'll see back.
+
+------------------------------------------------
+(1) ASK ABOUT ONE PICTURE (VQA)
+------------------------------------------------
+Upload to:     Optical  (or SAR)
+Example asks:  "What is the content of this image?"
+               "Is there water in this image?"
+               "What type of land is this?"
+
+What you'll see:
+  - A short text answer
+  - A confidence label: HIGH / MEDIUM / INSUFFICIENT
+    (this tells you how sure the app is — INSUFFICIENT means
+    "don't fully trust this answer")
+
+  SPECIAL TRICK: if your Optical picture is very cloudy, and you
+  ALSO uploaded a SAR picture of the same place, the app will
+  notice the clouds and automatically use the SAR picture
+  instead — you'll see this happen in the trace under the
+  answer. If it's cloudy and you have NO SAR picture, it will
+  either still answer (but warn you not to fully trust it) or,
+  if it's extremely cloudy, refuse to guess and ask you to
+  upload a SAR picture instead. This is not a bug — it's the
+  app being honest about what it can and can't see.
+
+------------------------------------------------
+(2) FIND SOMETHING IN ONE PICTURE (GROUNDING)
+------------------------------------------------
+Upload to:     Optical  (or SAR)
+Example asks:  "Where is the water body?"
+               "Highlight the buildings."
+               "Locate the road."
+
+What you'll see:
+  - A yellow/green box drawn around the area it found
+  - A confidence label: HIGH / MEDIUM / INSUFFICIENT
+  - If nothing matches, it will honestly say "not found"
+    instead of guessing
+  - Same cloudy-picture trick as above: cloudy Optical + a SAR
+    picture uploaded too = it automatically uses SAR instead.
+
+------------------------------------------------
+(3) COMPARE TWO PICTURES OF DIFFERENT DATES (CHANGE DETECTION)
+------------------------------------------------
+Upload to:     Before  AND  After  (two pictures, same place,
+               different dates)
+Example asks:  "What changed between these two images?"
+               "Compare these two dates."
+
+What you'll see:
+  - A sentence describing how much changed (e.g. "11% of the
+    area changed — HIGH change")
+  - A box showing roughly where the biggest change happened
+
+------------------------------------------------
+(4) ASK A QUESTION ABOUT WHAT CHANGED (CHANGE-VQA)
+------------------------------------------------
+Upload to:     Before  AND  After
+Example asks:  "Has the built-up area increased or decreased?"
+               "Did this area flood between these two dates?"
+
+What you'll see:
+  - A plain-English answer to your specific question
+  - The same "% changed" info as above, so you can double-check
+    the answer makes sense
+
+------------------------------------------------
+(5) COMBINE A NORMAL PHOTO + RADAR PHOTO (OPTICAL + SAR)
+------------------------------------------------
+Upload to:     Optical  AND  SAR  (same place, same time)
+Example asks:  "Use the optical and SAR images together to
+               identify water and built-up areas."
+               "Combine both sensors to find flooded areas."
+
+What you'll see:
+  - How much of the picture BOTH sensors agree is water/built-up
+    (this is the most trustworthy number)
+  - How much only the optical photo flagged
+  - How much only the radar photo flagged
+  - A confidence label: HIGH / MEDIUM / LOW
+
+
+--------------------------------------------------------
+STEP 5: WHAT IS THE "EXECUTION TRACE"?
+--------------------------------------------------------
+Under every answer, you'll see a list like this:
+
+  Query received: "..."
+  Decision Trace: classified as ...
+  Input validation: OK
+  Tool selected: ...
+  Tool Execution: running model...
+  Evidence Trace: ...
+  Evidence Fusion: ...
+
+This is just the app showing its "work" step by step — like
+showing your working in a math problem — so you can see WHY it
+gave that answer, not just the answer itself. You don't need to
+understand every line; it's there so nothing feels like magic.
+
+
+--------------------------------------------------------
+STEP 6: HOW SURE SHOULD I BE ABOUT THE ANSWERS?
+--------------------------------------------------------
+This app is a hackathon PROTOTYPE, not a finished product.
+Keep these things in mind:
+
+  - HIGH / MEDIUM / INSUFFICIENT (or LOW) labels are the app's
+    own best guess at how sure it is — not a lab-tested score.
+
+  - Change detection and Optical+SAR fusion use simple math
+    (comparing brightness/patterns), not a fully trained AI
+    model yet. They work, but they're not perfect — they can
+    be confused by shadows, clouds, or lighting differences.
+
+  - If the app says "insufficient evidence" or "not found,"
+    that is the honest answer — it means don't trust a guess
+    here, not that something is broken.
+
+
+--------------------------------------------------------
+STEP 7: COMMON PROBLEMS AND WHAT THEY MEAN
+--------------------------------------------------------
+
+"role 'before' not valid ... expected one of ['single']"
+  -> You uploaded to the wrong button. Move the picture to
+     Optical or SAR instead of Before/After.
+
+"Change tasks require exactly one 'before' image and one 'after' image."
+  -> You need BOTH Before and After uploaded, not just one.
+
+"Image could not be found on disk"
+  -> The app was restarted and forgot your upload. Just
+     re-upload the picture and ask again.
+
+Red error box / "blocked"
+  -> Not a crash — the app is telling you what's missing
+     before it will run. Read the message, it tells you
+     exactly what to fix.
+
+
+--------------------------------------------------------
+QUICK CHEAT SHEET
+--------------------------------------------------------
+Upload 1 picture (Optical or SAR)
+  -> "What is this?"                     = plain answer
+  -> "Where is the ___?"                 = box around it
+
+Upload 2 pictures (Before + After)
+  -> "What changed?"                     = change summary
+  -> "Did ___ increase/decrease?"        = direct answer
+
+Upload 2 pictures (Optical + SAR, same place/time)
+  -> "Combine both sensors to find ___"  = agreement % + map
+
+
+========================================================
+End of manual. If something doesn't match this guide,
+it's likely a bug — note down exactly what you uploaded
+and what you typed, so it can be reproduced and fixed.
+========================================================
