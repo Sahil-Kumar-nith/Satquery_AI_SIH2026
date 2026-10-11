@@ -1,0 +1,10 @@
+node_modules/
+.next/
+.venv/
+venv/
+__pycache__/
+.env
+.env.local
+*.pt
+*.pth
+*.safetensors
