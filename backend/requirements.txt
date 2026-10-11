@@ -1,0 +1,35 @@
+# Phase 1-2: API bootstrap.
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+python-multipart==0.0.9
+
+# Phase 3: GeoTIFF/TIFF validation.
+# rasterio ships its own GDAL binary wheels on Windows/Linux/macOS —
+# no separate system GDAL install needed for this to work.
+rasterio==1.3.11
+numpy==1.26.4
+
+# Phase 5: single-image VQA specialist model (Salesforce/blip-vqa-base)
+# + optional LoRA adapter loading at inference time.
+# CPU-only wheel works fine for a demo; install a CUDA build of torch
+# separately if you have a GPU box, per pytorch.org.
+#
+# torchvision MUST be pinned to the build matched with torch==2.4.1
+# (0.19.1, per pytorch.org's compatibility matrix). transformers imports
+# torchvision::nms internally for some vision models at import time;
+# an unpinned/mismatched torchvision produces exactly the error seen in
+# Phase 6 QA: "operator torchvision::nms does not exist". This is a
+# binary ABI mismatch, not a code bug — pinning is the fix, not a
+# try/except around the import.
+torch==2.4.1
+torchvision==0.19.1
+transformers==4.44.2
+pillow==10.4.0
+peft==0.12.0
+
+# Training-only deps for backend/adaptation/train_lora_vqa.py.
+# NOT required to run the API itself — install separately, only on
+# whatever machine actually runs the fine-tuning step.
+# accelerate==0.34.2
+# datasets==2.21.0

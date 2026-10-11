@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ------------------------------------------------------------------ */
+/* Console themes.                                                     */
+/*                                                                      */
+/* Three interchangeable skins for the same Mission Control layout —   */
+/* the professor asked for 2-3 ISRO-style UI directions to show        */
+/* alongside the working prototype. All three keep the exact same      */
+/* components/data; only background, panel, border and accent tokens   */
+/* change. Wire real per-PS-theme behaviour later — for now this is    */
+/* purely a visual identity switch (see ThemeProvider).                 */
+/*                                                                      */
+/* "mission" (default) — the original navy/cyan mission-control dash.  */
+/* "orbit"   — near-black deep-space console, amber/orbit-line accent, */
+/*             styled after ISRO/NASA mission-tracking displays.       */
+/* "monsoon" — dark radar-green console, tying the palette to the SAR  */
+/*             flood-interception hero demo.                            */
+/* ------------------------------------------------------------------ */
+
+:root,
+[data-theme="mission"] {
+  --bg-app: #020617;
+  --bg-panel: #0f172a;
+  --bg-panel-soft: #0f172a99;
+  --bg-elevated: #1e293b;
+  --border: #1e293b;
+  --border-soft: #1e293b80;
+  --accent: #22d3ee;
+  --accent-strong: #0891b2;
+  --accent-strong-hover: #06b6d4;
+  --accent-bg: #164e63;
+  --accent-text: #67e8f9;
+  --text: #f1f5f9;
+  --text-dim: #94a3b8;
+  --text-faint: #64748b;
+}
+
+[data-theme="orbit"] {
+  --bg-app: #000000;
+  --bg-panel: #0a0a0a;
+  --bg-panel-soft: #0a0a0acc;
+  --bg-elevated: #171717;
+  --border: #262626;
+  --border-soft: #26262680;
+  --accent: #f5a623;
+  --accent-strong: #b45309;
+  --accent-strong-hover: #d97706;
+  --accent-bg: #422006;
+  --accent-text: #fcd34d;
+  --text: #f1f1f1;
+  --text-dim: #a3a3a3;
+  --text-faint: #737373;
+}
+
+[data-theme="monsoon"] {
+  --bg-app: #030b08;
+  --bg-panel: #071913;
+  --bg-panel-soft: #07191399;
+  --bg-elevated: #0d2b20;
+  --border: #16352a;
+  --border-soft: #16352a80;
+  --accent: #34d399;
+  --accent-strong: #059669;
+  --accent-strong-hover: #10b981;
+  --accent-bg: #064e3b;
+  --accent-text: #6ee7b7;
+  --text: #ecfdf5;
+  --text-dim: #a7b5ae;
+  --text-faint: #71827a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--bg-app);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Phase 14 (UI): subtle "live evidence in question" pulse, ported from
+   the standalone workspace prototype's design system. Applied only to
+   insufficient/conflicting-evidence status badges — a restrained cue,
+   not a decorative flourish (see uisuggestions.docx: "don't make it
+   neon cyberpunk"). */
+@keyframes pulseDot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+.pulse-dot {
+  animation: pulseDot 1.6s ease-in-out infinite;
+}
